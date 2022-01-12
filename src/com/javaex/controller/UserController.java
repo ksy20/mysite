@@ -44,7 +44,12 @@ public class UserController extends HttpServlet {
 			
 			uDao.insert(uvo);
 			
-			WebUtil.forward(request, response, "/WEB-INF/views/user/JoinOk.jsp");	
+			WebUtil.forward(request, response, "/WEB-INF/views/user/JoinOk.jsp");
+			
+		}else if("loginForm".equals(act)) {
+			System.out.println("user > loginform");
+			
+			WebUtil.forward(request, response, "/WEB-INF/views/user/loginForm.jsp");
 		}
 	}
 
