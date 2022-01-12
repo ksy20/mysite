@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.javaex.dao.UserDao;
 import com.javaex.util.WebUtil;
@@ -39,9 +40,12 @@ public class UserController extends HttpServlet {
 			String name = request.getParameter("name");
 			String gender = request.getParameter("gender");
 			
-			UserVo uvo = new UserVo(id, password, name, gender);
-			UserDao uDao = new UserDao();
 			
+			//파라미터 vo로 만들기
+			UserVo uvo = new UserVo(id, password, name, gender);
+			
+			//vo를 userdao의 insert() 로 저장하기
+			UserDao uDao = new UserDao();
 			uDao.insert(uvo);
 			
 			WebUtil.forward(request, response, "/WEB-INF/views/user/JoinOk.jsp");
@@ -50,7 +54,62 @@ public class UserController extends HttpServlet {
 			System.out.println("user > loginform");
 			
 			WebUtil.forward(request, response, "/WEB-INF/views/user/loginForm.jsp");
+		
+		}else if("login".equals(act)) {
+			System.out.println("user > login");
+			
+			String id = request.getParameter("id");
+			String password = request.getParameter("password");
+			
+			//System.out.println(id);
+			//System.out.println(password);
+			
+			UserDao dao = new UserDao();
+			UserVo authVo= dao.getUser(id, password);
+			//System.out.println(authVo);
+			
+			if(authVo == null) {//로그인 실패
+				System.out.println("로그인 실패");
+				WebUtil.redirect(request, response, "/mysite/user?action=loginForm&result=fail");
+			}else {//로그인 성공
+				System.out.println("로그인 성공");
+				
+				HttpSession session = request.getSession();
+				session.setAttribute("authUser", authVo);
+				
+				WebUtil.redirect(request, response, "/mysite/main");
+			}
+			
+		}else if("logout".equals(act)) {
+			System.out.println("user > logout");
+			
+			HttpSession session = request.getSession();
+			session.removeAttribute("authUser");
+			session.invalidate();
+			
+			WebUtil.redirect(request, response, "/mysite/main");
+			
+		}else if("modifyForm".equals(act)) {
+			
+			HttpSession session = request.getSession();
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			
+			int no = authUser.getNo();
+			
+			UserDao userDao = new UserDao();
+			UserVo userVo = userDao.gUser(no);
+			
+			request.setAttribute("userVo", userVo);
+			
+			//포워드
+			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");//파일 위치.jsp
+		}else if ("modify".equals(act)) {
+			
+			
+			
 		}
+		
+		
 	}
 
 
