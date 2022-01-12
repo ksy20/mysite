@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.javaex.vo.GuestVo;
+import com.javaex.vo.UserVo;
 
 public class GuestDao {
 	// 0. import java.sql.*;
@@ -178,4 +179,7 @@ public class GuestDao {
 
 			return count;
 		}
+		
+			
+
 }

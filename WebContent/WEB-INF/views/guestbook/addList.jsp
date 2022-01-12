@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="com.javaex.vo.UserVo" %> 
+  
+<%
+	UserVo authUser = (UserVo)session.getAttribute("authUser");
+%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -18,17 +23,22 @@
 					<a href="/mysite/main">MySite</a>
 				</h1>
 	
-				<!-- 
-				<ul>
-					<li>황일영 님 안녕하세요^^</li>
-					<li><a href="" class="btn_s">로그아웃</a></li>
-					<li><a href="" class="btn_s">회원정보수정</a></li>
-				</ul>
-				-->	
-				<ul>
-					<li><a href="" class="btn_s">로그인</a></li>
+				<%if(authUser == null) { %>
+				
+					<ul>
+					<li><a href="/mysite/user?action=loginForm" class="btn_s">로그인</a></li>
 					<li><a href="/mysite/user?action=joinForm" class="btn_s">회원가입</a></li>
-				</ul>
+					</ul>
+				
+				<%}else {%>
+					<ul>
+					<li><%= authUser.getName() %> 님 안녕하세요^^</li>
+					<li><a href="/mysite/user?action=logout" class="btn_s">로그아웃</a></li>
+					<li><a href="" class="btn_s">회원정보수정</a></li>
+					</ul>
+				<% 
+				}
+				%>
 				
 			</div>
 			<!-- //header -->
@@ -108,7 +118,7 @@
 								<td>1234555</td>
 								<td>이정재</td>
 								<td>2020-03-03 12:12:12</td>
-								<td><a href="/mysite/guest?action=addList">[삭제]</a></td>
+								<td><a href="/mysite/guest?action=deleteForm">[삭제]</a></td>
 							</tr>
 							<tr>
 								<td colspan=4 class="text-left">방명록 글입니다. 방명록 글입니다.</td>
@@ -127,7 +137,7 @@
 								<td>1234555</td>
 								<td>이정재</td>
 								<td>2020-03-03 12:12:12</td>
-								<td><a href="">[삭제]</a></td>
+								<td><a href="/mysite/guest?action=deleteForm">[삭제]</a></td>
 							</tr>
 							<tr>
 								<td colspan=4 class="text-left">방명록 글입니다. 방명록 글입니다.</td>
