@@ -135,7 +135,7 @@ public class UserDao {
 	}
 	
 	
-	public UserVo gUser(int num) {
+	public UserVo gUser(int no) {
 		
 		UserVo vo = null;
 		getConnection();
@@ -144,19 +144,15 @@ public class UserDao {
 			// 3. SQL문 준비 / 바인딩 / 실행
 			//문자열
 			String query = "";
-			query += " select  no, ";
-			query += "         id,";
-			query += "         password,";
-			query += "         name,";
-			query += "         gender ";
-			query += " from    users ";
-			query += " where   no=? ";
+			query += " select no, id, password, name, gender ";
+			query += " from users ";
+			query += " where no = ? ";
 					
 			//쿼리
 			pstmt = conn.prepareStatement(query);
 
 			//바인딩
-			pstmt.setString(1, "no");
+			pstmt.setInt(1, no);
 
 			//실행
 			rs = pstmt.executeQuery();
@@ -164,7 +160,7 @@ public class UserDao {
 			// 4.결과처리
 			while(rs.next()) {
 						
-				int no = rs.getInt("no");
+				int num = rs.getInt("no");
 				String id = rs.getString("id");
 				String password = rs.getString("password");
 				String name = rs.getString("name");
@@ -178,8 +174,8 @@ public class UserDao {
 		} 
 				
 		close();
-		return vo;
 		
+		return vo;
 	} 
 		
 	public int update (UserVo vo) {
@@ -200,7 +196,7 @@ public class UserDao {
 			query += " where  no = ? ";	
 			
 			//쿼리문
-			pstmt = conn.prepareCall(query);
+			pstmt = conn.prepareStatement(query);
 			
 			//바인딩
 			pstmt.setString(1, vo.getId());

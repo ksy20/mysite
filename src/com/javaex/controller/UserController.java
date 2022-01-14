@@ -92,20 +92,32 @@ public class UserController extends HttpServlet {
 		}else if("modifyForm".equals(act)) {
 			
 			HttpSession session = request.getSession();
-			UserVo authUser = (UserVo)session.getAttribute("authUser");
-			
-			int no = authUser.getNo();
+			int no = ((UserVo)session.getAttribute("gUser")).getNo();
 			
 			UserDao userDao = new UserDao();
 			UserVo userVo = userDao.gUser(no);
 			
-			request.setAttribute("userVo", userVo);
-			
 			//포워드
+			request.setAttribute("userVo", userVo);
 			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");//파일 위치.jsp
-		}else if ("modify".equals(act)) {
+			}else if ("modify".equals(act)) {
 			
+			HttpSession session = request.getSession();
+			int no = ((UserVo)session.getAttribute("gUser")).getNo();
 			
+			String name = request.getParameter("name");
+			String password = request.getParameter("password");
+			String gender = request.getParameter("gender");
+			
+			UserVo vo = new UserVo(no, "", name, password, gender);
+			
+			UserDao dao= new UserDao();
+			dao.update(vo);
+			
+			UserVo sVo = (UserVo)session.getAttribute("authUser");
+			sVo.setName(name);
+			
+			WebUtil.redirect(request, response, "/mysite/main");
 			
 		}
 		
