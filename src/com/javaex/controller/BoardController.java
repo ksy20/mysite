@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.javaex.dao.BoardDao;
+import com.javaex.dao.UserDao;
 import com.javaex.util.WebUtil;
 import com.javaex.vo.BoardVo;
 import com.javaex.vo.UserVo;
@@ -47,14 +48,42 @@ public class BoardController extends HttpServlet {
 				UserVo user = (UserVo)session.getAttribute("authUser");
 				int userNo = user.getNo();
 				
-				BoardVo postVo = new BoardVo();
-				postVo.setUserNo(userNo);
-				postVo.setTitle(title);
-				postVo.setContent(content);
+				BoardVo boardVo = new BoardVo();
+				boardVo.setUserNo(userNo);
+				boardVo.setTitle(title);
+				boardVo.setContent(content);
 				
-				new BoardDao().write(postVo);
+				new BoardDao().write(boardVo);
 				
 				WebUtil.redirect(request, response, "/mysite/board?action=list");
+			}else if ("mofifyForm".equals(act)) {
+				HttpSession session = request.getSession();
+				int no = ((UserVo)session.getAttribute("gBoard")).getNo();
+				
+				BoardDao boardDao = new BoardDao();
+				BoardVo boardVo  = boardDao.gBoard(no);
+				
+				request.setAttribute("boardVo", boardVo);
+				WebUtil.forward(request, response, "/WEB-INF/views/board/modifyForm.jsp");//파일 위치.jsp
+			}else if ("modify".equals(act)) {
+				
+				HttpSession session = request.getSession();
+				int no = ((UserVo)session.getAttribute("gBoard")).getNo();
+				
+				String name = request.getParameter("name");
+				String password = request.getParameter("title");
+				String gender = request.getParameter("content");
+				
+				UserVo vo = new UserVo(no, "", name, password, gender);
+				
+				UserDao dao= new UserDao();
+				dao.update(vo);
+				
+				UserVo sVo = (UserVo)session.getAttribute("authUser");
+				sVo.setName(name);
+				
+				WebUtil.redirect(request, response, "/mysite/main");
+				
 			}
 			
 	}

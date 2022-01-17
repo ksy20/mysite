@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.javaex.vo.BoardVo;
+import com.javaex.vo.UserVo;
 
 
 public class BoardDao {
@@ -105,6 +106,59 @@ public class BoardDao {
 		return boardList;
 	}
 	
+	//하나만 가져오기
+	public BoardVo gBoard(int no) {
+		
+	BoardVo vo = null;
+	int userNo = 0;
+	getConnection();
+				
+	try {
+		// 3. SQL문 준비 / 바인딩 / 실행
+		//문자열
+		String query = "";
+		query += " select   us.name, ";
+		query += "          bo.no, ";
+		query += "          bo.title, ";
+		query += "          bo.content, ";
+		query += "          bo.hit, ";
+		query += "          to_char(bo.reg_date, 'YYYY-MM-DD HH:MI'), ";
+		query += "          bo.user_no";
+		query += " from     board bo, users us ";
+		query += " where    bo.user_no = us.no ";
+		query += " and		bo.no = ? ";
+					
+		//쿼리
+		pstmt = conn.prepareStatement(query);
+
+		//바인딩
+		pstmt.setInt(1, no);
+
+		//실행
+		rs = pstmt.executeQuery();
+
+		// 4.결과처리
+		while (rs.next()) {
+			int num = rs.getInt("no");
+			String title = rs.getString("title");
+			String content = rs.getString("content");
+			int hit = rs.getInt("hit");
+			String regDate = rs.getString("reg_date");
+			userNo = rs.getInt("user_no");
+			String name = rs.getString("name");
+			
+			vo = new BoardVo(num, title, content, hit, regDate, userNo, name);
+		}
+
+	} catch (SQLException e) {
+				System.out.println("error:" + e);
+	} 
+				
+	close();
+		
+	return vo;
+	} 
+	
 	//insert 하기
 	public void write(BoardVo boardVo) {
 
@@ -128,6 +182,8 @@ public class BoardDao {
 		
 		close();
 	}
+	
+	//삭제
 	public void delete(int num) {
 		getConnection();
 
@@ -156,6 +212,45 @@ public class BoardDao {
 		close();
 	}
 
-
+	//수정
+	public int update (BoardVo vo) {
+		
+		int count = 0;
+		getConnection();
+		
+		try {
+			//sql준비
+			//문자열
+			String query="";
+			
+			query += " update board ";
+			query += " set    title = ?, ";
+			query += "        content = ?, ";
+			query += " where  no = ? ";	
+			
+			//쿼리문
+			pstmt = conn.prepareStatement(query);
+			
+			//바인딩
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setInt(3, vo.getNo());
+			
+			//실행
+			count = pstmt.executeUpdate();
+			
+			//결과 처리
+			System.out.println(count + "건이 수정되었습니다");
+			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+		
+		close();
+		return count;
+		
+	}
+		
+	
 
 }
