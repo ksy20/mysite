@@ -27,10 +27,14 @@ public class BoardController extends HttpServlet {
 		
 		if ("list".equals(act)) {
 			
-			List<BoardVo> postList = new BoardDao().getList();
-			
-			request.setAttribute("pList", postList);
+			System.out.println("action > list");
+
+			List<BoardVo> boardList = new BoardDao().getList();
+
+			request.setAttribute("boardList", boardList);
+
 			WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
+			
 		}else if ("writeForm".equals(act)) {
 			System.out.println("action > writeForm");
 

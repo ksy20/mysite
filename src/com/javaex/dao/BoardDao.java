@@ -67,13 +67,13 @@ public class BoardDao {
 		try {
 			// SQL문 준비
 			String query = "";
-			query += " select   us.name name, ";
-			query += "          bo.no no, ";
-			query += "          bo.title title, ";
-			query += "          bo.content content, ";
-			query += "          bo.hit hit, ";
-			query += "          to_char(bo.reg_date, 'YYYY-MM-DD HH:MI') reg_date, ";
-			query += "          bo.user_no user_no";
+			query += " select   us.name, ";
+			query += "          bo.no, ";
+			query += "          bo.title, ";
+			query += "          bo.content, ";
+			query += "          bo.hit, ";
+			query += "          to_char(bo.reg_date, 'YYYY-MM-DD HH:MI'), ";
+			query += "          bo.user_no";
 			query += " from     board bo, users us ";
 			query += " where    bo.user_no = us.no ";
 			query += " order by bo.no desc ";
@@ -106,7 +106,7 @@ public class BoardDao {
 	}
 	
 	//insert 하기
-	public void write(BoardVo postVo) {
+	public void write(BoardVo boardVo) {
 
 		try {
 			getConnection();
@@ -116,19 +116,19 @@ public class BoardDao {
 			query += " values(seq_board_no.nextval, ?, ?, 0,  sysdate, ?) " ;
 
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, postVo.getTitle());    
-			pstmt.setString(2, postVo.getContent());
-			pstmt.setInt(3, postVo.getUserNo());
+			pstmt.setString(1, boardVo.getTitle());    
+			pstmt.setString(2, boardVo.getContent());
+			pstmt.setInt(3, boardVo.getUserNo());
 			
 			int count = pstmt.executeUpdate();  
-			System.out.println(count + " 건이 등록되었습니다.[board]");
+			System.out.println(count + " 건이 등록되었습니다.");
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		} 
 		
 		close();
 	}
-	public void boardDelete(int num) {
+	public void delete(int num) {
 		getConnection();
 
 		try {
