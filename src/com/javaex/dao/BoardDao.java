@@ -148,7 +148,7 @@ public class BoardDao {
 			int count = pstmt.executeUpdate();
 
 			// 결과처리
-			System.out.println("[" + count + "건 삭제되었습니다.(BoardDao)]");
+			System.out.println(count + "건 삭제되었습니다.");
 
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
