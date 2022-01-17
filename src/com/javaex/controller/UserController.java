@@ -100,7 +100,7 @@ public class UserController extends HttpServlet {
 			//포워드
 			request.setAttribute("userVo", userVo);
 			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");//파일 위치.jsp
-			}else if ("modify".equals(act)) {
+		}else if ("modify".equals(act)) {
 			
 			HttpSession session = request.getSession();
 			int no = ((UserVo)session.getAttribute("gUser")).getNo();

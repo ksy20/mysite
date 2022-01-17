@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.javaex.vo.BoardVo;
-import com.javaex.vo.UserVo;
-
 
 public class BoardDao {
 	
@@ -122,7 +120,7 @@ public class BoardDao {
 		query += "          bo.title, ";
 		query += "          bo.content, ";
 		query += "          bo.hit, ";
-		query += "          to_char(bo.reg_date, 'YYYY-MM-DD HH:MI'), ";
+		query += "          to_char(bo.reg_date, 'YY-MM-DD HH:MI'), ";
 		query += "          bo.user_no";
 		query += " from     board bo, users us ";
 		query += " where    bo.user_no = us.no ";
@@ -250,7 +248,5 @@ public class BoardDao {
 		return count;
 		
 	}
-		
-	
 
 }

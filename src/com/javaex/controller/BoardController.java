@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.javaex.dao.BoardDao;
+import com.javaex.dao.GuestDao;
 import com.javaex.dao.UserDao;
 import com.javaex.util.WebUtil;
 import com.javaex.vo.BoardVo;
@@ -28,16 +29,16 @@ public class BoardController extends HttpServlet {
 		
 		if ("list".equals(act)) {
 			
-			System.out.println("action > list");
+				System.out.println("action > list");
 
-			List<BoardVo> boardList = new BoardDao().getList();
+				List<BoardVo> boardList = new BoardDao().getList();
 
-			request.setAttribute("boardList", boardList);
+				request.setAttribute("boardList", boardList);
 
-			WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
+				WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
 			
 		}else if ("writeForm".equals(act)) {
-			System.out.println("action > writeForm");
+				System.out.println("action > writeForm");
 
 			WebUtil.forward(request, response, "/WEB-INF/views/board/writeForm.jsp");
 		}else if("write".equals(act)) {
@@ -56,7 +57,7 @@ public class BoardController extends HttpServlet {
 				new BoardDao().write(boardVo);
 				
 				WebUtil.redirect(request, response, "/mysite/board?action=list");
-			}else if ("mofifyForm".equals(act)) {
+		}else if ("mofifyForm".equals(act)) {
 				HttpSession session = request.getSession();
 				int no = ((UserVo)session.getAttribute("gBoard")).getNo();
 				
@@ -65,7 +66,7 @@ public class BoardController extends HttpServlet {
 				
 				request.setAttribute("boardVo", boardVo);
 				WebUtil.forward(request, response, "/WEB-INF/views/board/modifyForm.jsp");//파일 위치.jsp
-			}else if ("modify".equals(act)) {
+		}else if ("modify".equals(act)) {
 				
 				HttpSession session = request.getSession();
 				int no = ((UserVo)session.getAttribute("gBoard")).getNo();
@@ -82,9 +83,20 @@ public class BoardController extends HttpServlet {
 				UserVo sVo = (UserVo)session.getAttribute("authUser");
 				sVo.setName(name);
 				
-				WebUtil.redirect(request, response, "/mysite/main");
+				WebUtil.redirect(request, response, "/mysite/board?action=list");
 				
-			}
+		}else if ("delete".equals(act)) {
+			
+				System.out.println("board > delete");
+			
+				int no = Integer.parseInt(request.getParameter("no"));
+				String delete = request.getParameter("delete");
+			
+				BoardDao Dao = new BoardDao();
+				Dao.delete(no);
+			
+				WebUtil.redirect(request, response, "/mysite/board?action=list");
+		}
 			
 	}
 
