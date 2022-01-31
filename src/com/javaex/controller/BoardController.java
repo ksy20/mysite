@@ -47,10 +47,10 @@ public class BoardController extends HttpServlet {
 				
 				HttpSession session = request.getSession();
 				UserVo user = (UserVo)session.getAttribute("authUser");
-				int userNo = user.getNo();
+				int user_no = user.getNo();
 				
 				BoardVo boardVo = new BoardVo();
-				boardVo.setUserNo(userNo);
+				boardVo.setUser_no(user_no);
 				boardVo.setTitle(title);
 				boardVo.setContent(content);
 				

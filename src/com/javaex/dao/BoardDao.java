@@ -60,6 +60,7 @@ public class BoardDao {
 	
 	//전체 가져오기
 	public List<BoardVo> getList() {
+		
 		List<BoardVo> boardList = new ArrayList<BoardVo>();
 
 		getConnection();
@@ -71,10 +72,10 @@ public class BoardDao {
 			query += "          bo.title, ";
 			query += "          bo.content, ";
 			query += "          bo.hit, ";
-			query += "          to_char(bo.reg_date, 'YYYY-MM-DD HH:MI'), ";
-			query += "          bo.user_no";
+			query += "          to_char(bo.reg_date, 'yy-mm-dd hh:mi'), ";
+			query += "          bo.user_no ";
 			query += " from     board bo, users us ";
-			query += " where    bo.user_no = us.no ";
+			query += " where    bo.user_no= us.no ";
 			query += " order by bo.no desc ";
 
 			// 쿼리
@@ -82,6 +83,7 @@ public class BoardDao {
 
 			// 실행
 			rs = pstmt.executeQuery();
+			
 			// 결과처리
 			while (rs.next()) {
 				int no = rs.getInt("no");
@@ -170,7 +172,7 @@ public class BoardDao {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, boardVo.getTitle());    
 			pstmt.setString(2, boardVo.getContent());
-			pstmt.setInt(3, boardVo.getUserNo());
+			pstmt.setInt(3, boardVo.getUser_no());
 			
 			int count = pstmt.executeUpdate();  
 			System.out.println(count + " 건이 등록되었습니다.");

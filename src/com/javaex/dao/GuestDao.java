@@ -74,7 +74,7 @@ public class GuestDao {
 				query += "         password, ";
 				query += "         content, ";
 				query += "         to_char(reg_date, 'yyyy-mm-dd hh:mi:ss') reg_date ";
-				query += "         from guestbook ";
+				query += " from guestbook ";
 				query += " order by reg_date desc ";
 
 				// 쿼리

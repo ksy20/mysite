@@ -7,25 +7,25 @@ public class BoardVo {
 	private String content;
 	private int hit;
 	private String reg_date;
-	private int userNo;
+	private int user_no;
 	private String name;
 	
 	public BoardVo() {
 	}
 	
-	public BoardVo(String title, String content,int userNo) {
+	public BoardVo(String title, String content,int user_no) {
 		this.no = no;
 		this.content = content;
-		this.userNo = userNo;
+		this.user_no = user_no;
 	}
 
-	public BoardVo(int no, String title, String content, int hit, String reg_date, int userNo, String name) {
+	public BoardVo(int no, String title, String content, int hit, String reg_date, int user_no, String name) {
 		this.no = no;
 		this.title = title;
 		this.content = content;
 		this.hit = hit;
 		this.reg_date = reg_date;
-		this.userNo = userNo;
+		this.user_no = user_no;
 		this.name = name;
 	}
 
@@ -69,12 +69,12 @@ public class BoardVo {
 		this.reg_date = reg_date;
 	}
 
-	public int getUserNo() {
-		return userNo;
+	public int getUser_no() {
+		return user_no;
 	}
 
-	public void setUserNo(int userNo) {
-		this.userNo = userNo;
+	public void setUser_no(int user_no) {
+		this.user_no = user_no;
 	}
 	
 	public String getname() {
@@ -88,7 +88,7 @@ public class BoardVo {
 	@Override
 	public String toString() {
 		return "BoardVo [no=" + no + ", title=" + title + ", content=" + content + ", hit=" + hit + ", reg_date="
-				+ reg_date + ", userNo=" + userNo + ", name=" + name + "]";
+				+ reg_date + ", userNo=" + user_no + ", name=" + name + "]";
 	}
 
  

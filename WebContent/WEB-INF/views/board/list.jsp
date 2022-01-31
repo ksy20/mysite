@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 	<html>
 	<head>
@@ -63,8 +63,8 @@
 											<td class="text-left"><a href="/mysite/board?action=read&no=${vo.no}">${vo.title}</a></td>
 											<td>${vo.name}</td>
 											<td>${vo.hit}</td>
-											<td>${vo.regDate}</td>
-											<td><c:if test="${(sessionScope.authUser.no) == (vo.userNo)}">
+											<td>${vo.reg_date}</td>
+											<td><c:if test="${(sessionScope.authUser.no) == (vo.user_no)}">
 													<a href="/mysite/board?action=delete&no=${vo.no}">[삭제]</a>
 												</c:if></td>
 										</tr>
